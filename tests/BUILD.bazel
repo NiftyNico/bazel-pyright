@@ -1,0 +1,37 @@
+load("@rules_python//python:defs.bzl", "py_binary", "py_library")
+load("//:defs.bzl", "py_typed")
+
+# Test with correct types - should pass
+py_typed(
+    name = "passing_lib",
+    srcs = ["passing_types.py"],
+    base_rule = py_library,
+)
+
+# Test with type errors - should fail
+py_typed(
+    name = "failing_lib",
+    srcs = ["failing_types.py"],
+    base_rule = py_library,
+    tags = ["manual"],  # Don't run this by default since it's expected to fail
+)
+
+py_binary(
+    name = "failing_types",
+    srcs = ["failing_types.py"],
+    visibility = ["//:__subpackages__"],
+)
+
+py_binary(
+    name = "passing_types",
+    srcs = ["passing_types.py"],
+    visibility = ["//:__subpackages__"],
+)
+
+# Test with main attribute - should pass
+py_typed(
+    name = "main_entry_binary",
+    base_rule = py_binary,
+    main = "main_entry.py",
+    srcs = ["main_entry.py"],
+)

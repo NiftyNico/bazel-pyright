@@ -1,0 +1,18 @@
+load("@rules_python//python:defs.bzl", "py_binary", "py_library")
+
+py_binary(
+    name = "runner",
+    srcs = ["pyright_runner.py"],
+    main = "pyright_runner.py",
+    visibility = ["//visibility:public"],
+    deps = [
+        "@pip//pyright",
+    ],
+)
+
+py_library(
+    name = "pyright",
+    srcs = ["pyright_runner.py"],
+    visibility = ["//:__subpackages__"],
+    deps = ["@pip//pyright"],
+)
