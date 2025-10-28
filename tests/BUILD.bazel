@@ -35,3 +35,20 @@ py_typed(
     main = "main_entry.py",
     srcs = ["main_entry.py"],
 )
+
+# Test with strict type checking - should pass with proper types
+py_typed(
+    name = "strict_lib",
+    srcs = ["strict_types.py"],
+    base_rule = py_library,
+    pyrightconfig = "pyrightconfig_strict.json",
+)
+
+# Test that implicit Any fails with strict mode (expected to fail)
+py_typed(
+    name = "strict_fail_lib",
+    srcs = ["passing_types.py"],
+    base_rule = py_library,
+    pyrightconfig = "pyrightconfig_strict.json",
+    tags = ["manual"],  # Don't run by default since it's expected to fail
+)
