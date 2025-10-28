@@ -31,9 +31,9 @@ py_binary(
 # Test with main attribute - should pass
 py_typed(
     name = "main_entry_binary",
+    srcs = ["main_entry.py"],
     base_rule = py_binary,
     main = "main_entry.py",
-    srcs = ["main_entry.py"],
 )
 
 # Test with strict type checking - should pass with proper types
@@ -51,4 +51,15 @@ py_typed(
     base_rule = py_library,
     pyrightconfig = "pyrightconfig_strict.json",
     tags = ["manual"],  # Don't run by default since it's expected to fail
+)
+
+py_library(
+    name = "tests",
+    srcs = [
+        "failing_types.py",
+        "main_entry.py",
+        "passing_types.py",
+        "strict_types.py",
+    ],
+    visibility = ["//:__subpackages__"],
 )

@@ -1,1 +1,1 @@
-# bazel-pyright
+# rules-pyright
