@@ -9,24 +9,26 @@ def _pyright_test_impl(ctx):
     if not srcs:
         fail("No Python source files found for pyright checking")
 
-    # Create a script that invokes the runner with source files
+    # Create a script that invokes node with pyright directly
     script = ctx.actions.declare_file(ctx.label.name + "_test.sh")
+
+    pyright_index = ctx.file._pyright_index
+    pyright_files = ctx.files._pyright_files
 
     ctx.actions.write(
         output = script,
         content = """#!/usr/bin/env bash
 set -euo pipefail
-exec {runner} {srcs}
+exec node {pyright_index} {srcs}
 """.format(
-            runner = ctx.executable._runner.short_path,
+            pyright_index = pyright_index.short_path,
             srcs = " ".join([src.short_path for src in srcs]),
         ),
         is_executable = True,
     )
 
     # Collect runfiles
-    runfiles = ctx.runfiles(files = srcs + [ctx.executable._runner])
-    runfiles = runfiles.merge(ctx.attr._runner[DefaultInfo].default_runfiles)
+    runfiles = ctx.runfiles(files = srcs + [pyright_index] + pyright_files)
 
     return [DefaultInfo(
         executable = script,
@@ -42,10 +44,12 @@ pyright_test = rule(
             mandatory = True,
             doc = "Python source files to type check",
         ),
-        "_runner": attr.label(
-            default = "//pyright:runner",
-            executable = True,
-            cfg = "exec",
+        "_pyright_index": attr.label(
+            default = "@pyright//:index.js",
+            allow_single_file = True,
+        ),
+        "_pyright_files": attr.label(
+            default = "@pyright//:pyright_files",
         ),
     },
     doc = "Runs pyright type checker on Python source files",

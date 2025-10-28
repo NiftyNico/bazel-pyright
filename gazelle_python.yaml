@@ -4,10 +4,7 @@
 #   bazel run //:gazelle_python_manifest.update
 
 manifest:
-  modules_mapping:
-    nodeenv: nodeenv
-    pyright: pyright
-    typing_extensions: typing_extensions
+  modules_mapping: {}
   pip_repository:
     name: pip
-integrity: 1b21ce4950ff76091f335cd221587c774856719e0ffbb24b826a9566c0872c05
+integrity: 2681986c2d57ce15480eff2a5b197cbb6164357e960f6124aebd0b18e11f083c

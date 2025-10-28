@@ -1,1 +1,2 @@
-pyright==1.1.407
+# Python dependencies
+# (Currently empty - pyright uses Node.js binary directly)
