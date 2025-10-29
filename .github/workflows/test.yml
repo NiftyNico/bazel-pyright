@@ -28,5 +28,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: bazel-test-logs
-          path: bazel-out/
+          path: bazel-out/**/testlogs/**
           retention-days: 5
