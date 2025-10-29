@@ -13,7 +13,7 @@ Bazel rules for running [Pyright](https://github.com/microsoft/pyright) type che
 
 ### Prerequisites
 
-- [Bazelisk](https://bazel.build/install/bazelisk) 8.4
+- [Bazelisk](https://bazel.build/install/bazelisk)
 
 ### Setup
 
