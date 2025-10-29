@@ -3,10 +3,13 @@
 def _pyright_test_impl(ctx):
     """Implementation of pyright_test rule."""
 
-    # Collect all Python source files
-    srcs = [src for src in ctx.files.srcs if src.extension == "py"]
+    # Collect all source files (including non-.py files)
+    all_srcs = ctx.files.srcs
 
-    if not srcs:
+    # Filter only Python files for execution
+    py_srcs = [src for src in all_srcs if src.extension == "py"]
+
+    if not py_srcs:
         fail("No Python source files found for pyright checking")
 
     # Create a script that invokes node with pyright directly
@@ -30,17 +33,24 @@ exec node {pyright_index} {config_arg} {srcs}
 """.format(
             pyright_index = pyright_index.short_path,
             config_arg = config_arg,
-            srcs = " ".join([src.short_path for src in srcs]),
+            srcs = " ".join([src.short_path for src in py_srcs]),
         ),
         is_executable = True,
     )
 
-    # Collect runfiles
-    runfiles = ctx.runfiles(files = srcs + [pyright_index] + pyright_files + config_files)
-
     return [DefaultInfo(
         executable = script,
-        runfiles = runfiles,
+        runfiles = ctx.runfiles(
+            files = all_srcs + [pyright_index] + pyright_files + config_files,
+        ).merge_all([
+            dep[DefaultInfo].default_runfiles
+            for dep in ctx.attr.deps
+            if DefaultInfo in dep
+        ]).merge_all([
+            data[DefaultInfo].default_runfiles
+            for data in ctx.attr.data
+            if DefaultInfo in data
+        ]),
     )]
 
 pyright_test = rule(
@@ -48,9 +58,9 @@ pyright_test = rule(
     test = True,
     attrs = {
         "srcs": attr.label_list(
-            allow_files = [".py"],
+            allow_files = True,
             mandatory = True,
-            doc = "Python source files to type check",
+            doc = "Source files to include (Python files will be type checked)",
         ),
         "deps": attr.label_list(
             default = [],
