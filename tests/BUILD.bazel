@@ -1,46 +1,45 @@
-load("@rules_python//python:defs.bzl", "py_binary", "py_library")
-load("//:defs.bzl", "pyright_test")
+load("//tests:defs.bzl", "py_binary", "py_library", "py_test")
 
-# Test with correct types - should pass
-pyright_test(
-    name = "passing_lib_pyright_test",
-    srcs = ["passing_types.py"],
+# gazelle:python_generation_mode file
+# gazelle:map_kind py_binary py_binary //tests:defs.bzl
+# gazelle:map_kind py_library py_library //tests:defs.bzl
+# gazelle:map_kind py_test py_test //tests:defs.bzl
+
+py_library(
+    name = "lib",
+    srcs = ["lib.py"],
+    visibility = ["//:__subpackages__"],
 )
 
-# Test with type errors - should fail
-pyright_test(
-    name = "failing_lib_pyright_test",
-    srcs = ["failing_types.py"],
-    tags = ["manual"],  # Don't run this by default since it's expected to fail
-)
-
-pyright_test(
-    name = "failing_types_pyright_test",
-    srcs = ["failing_types.py"],
-    tags = ["manual"],  # Don't run by default since it's expected to fail
-)
-
-pyright_test(
-    name = "passing_types_pyright_test",
-    srcs = ["passing_types.py"],
-)
-
-pyright_test(
-    name = "main_entry_binary_pyright_test",
+py_binary(
+    name = "main_entry",
     srcs = ["main_entry.py"],
+    visibility = ["//:__subpackages__"],
 )
 
-# Test with strict type checking - should pass with proper types
-pyright_test(
-    name = "strict_lib_pyright_test",
-    srcs = ["strict_types.py"],
-    pyrightconfig = "pyrightconfig_strict.json",
+py_library(
+    name = "types_failing",
+    srcs = ["types_failing.py"],
+    tags = ["manual"],
+    visibility = ["//:__subpackages__"],
+    deps = [":lib"],
 )
 
-# Test that implicit Any fails with strict mode (expected to fail)
-pyright_test(
-    name = "strict_fail_lib_pyright_test",
-    srcs = ["passing_types.py"],
-    pyrightconfig = "pyrightconfig_strict.json",
-    tags = ["manual"],  # Don't run by default since it's expected to fail
+py_binary(
+    name = "types_passing",
+    srcs = ["types_passing.py"],
+    visibility = ["//:__subpackages__"],
+    deps = [":lib"],
+)
+
+py_binary(
+    name = "types_strict",
+    srcs = ["types_strict.py"],
+    visibility = ["//:__subpackages__"],
+)
+
+py_test(
+    name = "lib_test",
+    srcs = ["lib_test.py"],
+    deps = [":lib"],
 )

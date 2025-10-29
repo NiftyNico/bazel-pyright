@@ -1,15 +1,6 @@
 """Test file with correct type annotations."""
 
-
-def add_numbers(a: int, b: int) -> int:
-    """Add two numbers together."""
-    return a + b
-
-
-def greet(name: str) -> str:
-    """Greet a person by name."""
-    return f"Hello, {name}!"
-
+from lib import add_numbers, greet
 
 def implicit_any(value):
     """This function has implicit Any parameter - would fail in strict mode."""

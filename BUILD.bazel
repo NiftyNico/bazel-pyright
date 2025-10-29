@@ -1,4 +1,4 @@
-load("@gazelle//:def.bzl", "gazelle", "gazelle_binary")
+load("@gazelle//:def.bzl", "gazelle", "gazelle_binary", "gazelle_test")
 load("@pip//:requirements.bzl", "all_whl_requirements")
 load("@rules_python//python:pip.bzl", "compile_pip_requirements")
 load("@rules_python_gazelle_plugin//manifest:defs.bzl", "gazelle_python_manifest")
@@ -34,4 +34,9 @@ gazelle_binary(
 gazelle(
     name = "gazelle",
     gazelle = ":gazelle_bin",
+)
+
+gazelle_test(
+    name = "gazelle_up_to_date",
+    workspace = "//:BUILD.bazel",
 )
