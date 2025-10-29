@@ -5,7 +5,7 @@ Bazel rules for running [Pyright](https://github.com/microsoft/pyright) type che
 `rules-pyright` enables you to enforce Python type safety as part of your Bazel build process.
 
 ## Features
-- **Bazel Integration**: First-class Bazel rule for type checking
+- **Bazel Integration**: Bazel rule for type checking
 - **Configuration Support**: Optional `pyrightconfig.json` for customizing type checking behavior
 - **Test Framework Integration**: Works seamlessly with Bazel's test runner
 
