@@ -52,6 +52,14 @@ pyright_test = rule(
             mandatory = True,
             doc = "Python source files to type check",
         ),
+        "deps": attr.label_list(
+            default = [],
+            doc = "Dependencies",
+        ),
+        "data": attr.label_list(
+            default = [],
+            doc = "Any other data to include",
+        ),
         "pyrightconfig": attr.label(
             allow_single_file = [".json"],
             doc = "Optional pyrightconfig.json file for type checking configuration",
@@ -66,44 +74,3 @@ pyright_test = rule(
     },
     doc = "Runs pyright type checker on Python source files",
 )
-
-def py_typed(name, base_rule, srcs = [], deps = [], tags = [], main = None, pyrightconfig = None, **kwargs):
-    """A Python target that automatically includes pyright type checking.
-
-    Args:
-        name: Name of the target
-        base_rule: The underlying rule to use (e.g., native.py_library, native.py_binary,
-                   or any custom wrapper)
-        srcs: Python source files
-        deps: Dependencies
-        tags: Tags to apply to both the base target and the pyright test
-        main: Main entry point file (will be added to srcs for pyright test)
-        pyrightconfig: Optional pyrightconfig.json file for type checking configuration
-        **kwargs: Additional arguments passed to the base rule
-    """
-    # Pass main to the base rule if provided
-    base_rule_kwargs = dict(kwargs)
-    if main:
-        base_rule_kwargs["main"] = main
-
-    base_rule(
-        name = name,
-        srcs = srcs,
-        deps = deps,
-        tags = tags,
-        **base_rule_kwargs
-    )
-
-    # For pyright test, include main in srcs if provided and not already in srcs
-    # (but don't pass main attribute to the test)
-    pyright_srcs = srcs
-    if main and main not in srcs:
-        pyright_srcs = srcs + [main]
-
-    # Create a pyright test for this target with the same tags
-    pyright_test(
-        name = name + "_pyright_test",
-        srcs = pyright_srcs,
-        pyrightconfig = pyrightconfig,
-        tags = tags + ["pyright", "type-check"],
-    )
