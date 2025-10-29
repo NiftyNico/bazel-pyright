@@ -22,8 +22,8 @@ Add to your `MODULE.bazel`:
 ```python
 bazel_dep(name = "rules_pyright", version = "0.1.0")
 git_override(
-    module_name = "rules-pyright",
-    remote = "https://github.com/NiftyNico/pyright-rules.git",
+    module_name = "rules_pyright",
+    remote = "https://github.com/NiftyNico/rules_pyright.git",
     commit = "COMMIT_SHA",
 )
 
