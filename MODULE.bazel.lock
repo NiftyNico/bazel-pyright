@@ -224,7 +224,7 @@
     "@@rules_nodejs+//nodejs:extensions.bzl%node": {
       "general": {
         "bzlTransitiveDigest": "rphcryfYrOY/P3emfTskC/GY5YuHcwMl2B2ncjaM8lY=",
-        "usagesDigest": "GOlX2wrXruDBIqb+TStmHOAZlVr0tL70FI9HvZoCUQI=",
+        "usagesDigest": "ujXQXduSl/VdEruOeAtnAYqWIKP8hO7+Ol0yl3+Z/A8=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {},
