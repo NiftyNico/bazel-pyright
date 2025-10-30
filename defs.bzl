@@ -29,7 +29,7 @@ def _pyright_test_impl(ctx):
         output = script,
         content = """#!/usr/bin/env bash
 set -euo pipefail
-export PYTHONPATH="${{TEST_SRCDIR}}"
+export PYTHONPATH="${{PWD}}"
 exec node {pyright_index} {config_arg} {srcs}
 """.format(
             pyright_index = pyright_index.short_path,
