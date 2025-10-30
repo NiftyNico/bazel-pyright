@@ -1,5 +1,5 @@
 module(
-    name = "rules-pyright",
+    name = "rules_pyright",
     version = "0.1.0",
 )
 

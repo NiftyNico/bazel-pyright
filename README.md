@@ -1,8 +1,8 @@
-# rules-pyright
+# rules_pyright
 Bazel rules for running [Pyright](https://github.com/microsoft/pyright) type checking on Python code. This project provides seamless integration of the Pyright static type checker into Bazel build systems.
 
 ## Overview
-`rules-pyright` enables you to enforce Python type safety as part of your Bazel build process.
+`rules_pyright` enables you to enforce Python type safety as part of your Bazel build process.
 
 ## Features
 - **Bazel Integration**: Bazel rule for type checking
@@ -21,6 +21,12 @@ Add to your `MODULE.bazel`:
 
 ```python
 bazel_dep(name = "rules_pyright", version = "0.1.0")
+git_override(
+    module_name = "rules_pyright",
+    remote = "https://github.com/NiftyNico/rules_pyright.git",
+    commit = "COMMIT_SHA",
+)
+
 ```
 
 ## Usage
@@ -29,9 +35,9 @@ See the test [macro](tests/defs.bzl) and [targets](tests/defs.bzl) for example u
 
 Include the following in MODULE.bazel
 ```starlark
-bazel_dep(name = "rules-pyright", version = "0.1.0")
+bazel_dep(name = "rules_pyright", version = "0.1.0")
 git_override(
-    module_name = "rules-pyright",
+    module_name = "rules_pyright",
     remote = "https://github.com/NiftyNico/pyright-rules.git",
     commit = "bb2fb01e1d5c1fe41f5ef5645e490b844b5b062f",
 )
