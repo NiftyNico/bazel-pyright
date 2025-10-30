@@ -15,20 +15,6 @@ Bazel rules for running [Pyright](https://github.com/microsoft/pyright) type che
 
 - [Bazelisk](https://bazel.build/install/bazelisk)
 
-### Setup
-
-Add to your `MODULE.bazel`:
-
-```python
-bazel_dep(name = "rules_pyright", version = "0.1.0")
-git_override(
-    module_name = "rules_pyright",
-    remote = "https://github.com/NiftyNico/rules_pyright.git",
-    commit = "COMMIT_SHA",
-)
-
-```
-
 ## Usage
 
 See the test [macro](tests/defs.bzl) and [targets](tests/defs.bzl) for example usage.
