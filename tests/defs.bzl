@@ -8,7 +8,7 @@ load(
     py_test_base = "py_test",
 )
 
-load("@rules-pyright//:defs.bzl", "pyright_test")
+load("@rules_pyright//:defs.bzl", "pyright_test")
 
 
 def _py_typed(py_target, name, srcs=[], deps=[], data=[], tags=[], pyrightconfig=None, **kwargs):
